@@ -11,244 +11,276 @@ import ReceivedCash from "./ReceivedCash";
 import Additionals from "./Additionals";
 
 const Clients = () => {
-  // Variables
-  const [search, setSearch] = useState("");
-  const [dropDownOne, setDropDownOne] = useState(true);
-  const [clients, setClients] = useState([]);
-  const [newClient, setNewClient] = useState(false);
-  const [showUpdateClient, setShowUpdateClient] = useState(false);
-  const [updateClient, setUpdateClient] = useState({});
-  const [selectedRow, setSelectedRow] = useState(null);
-  const navigate = useNavigate();
+    // Variables
+    const [search, setSearch] = useState("");
+    const [dropDownOne, setDropDownOne] = useState(true);
+    const [clients, setClients] = useState([]);
+    const [newClient, setNewClient] = useState(false);
+    const [showUpdateClient, setShowUpdateClient] = useState(false);
+    const [updateClient, setUpdateClient] = useState({});
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedClient, setSelectedClient] = useState({});
+    const navigate = useNavigate();
 
-  // Functions
+    // Functions
 
-  const showNewClinet = () => {
-    setNewClient(!newClient);
-  };
+    const showNewClinet = () => {
+        setNewClient(!newClient);
+    };
 
-  useEffect(() => {
-    getClients();
-  }, []);
+    useEffect(() => {
+        getClients();
+    }, []);
 
-  const toggleDropDown = (clientId) => {
-    setSelectedRow(clientId === selectedRow ? null : clientId);
-  };
+    const toggleDropDown = (clientId) => {
+        setSelectedRow(clientId === selectedRow ? null : clientId);
+    };
 
-  const getClients = async () => {
-    const res = await api.get("api/clients");
-    setClients(res.data);
-  };
+    const getClients = async () => {
+        const res = await api.get("api/clients");
+        setClients(res.data);
+    };
 
-  const clientClicked = (client) => {
-    setSearch(client.name);
-    setDropDownOne(false);
-    searchClient([client]);
-  };
+    const clientClicked = (client) => {
+        setSearch(client.name);
+        setDropDownOne(false);
+        searchClient([client]);
+    };
 
-  const searchClient = (value) => {
-    setSearch("");
-    setDropDownOne(true);
-    if (typeof value === "string") {
-      if (clients.find((obj) => obj.name === value)) {
-        const searchedClient = clients.find((obj) => obj.name === value);
-        setClients([searchedClient]);
-      } else {
+    const searchClient = (value) => {
+        setSearch("");
+        setDropDownOne(true);
+        if (typeof value === "string") {
+            if (clients.find((obj) => obj.name === value)) {
+                const searchedClient = clients.find(
+                    (obj) => obj.name === value
+                );
+                setClients([searchedClient]);
+            } else {
+                swal({
+                    title: "لا يوجد عميل بهذا الاسم",
+                    icon: "error",
+                });
+            }
+        } else {
+            setClients(value);
+        }
+    };
+
+    const ClientUpdate = (client) => {
+        setShowUpdateClient(!showUpdateClient);
+        setUpdateClient(client);
+    };
+
+    const deleteAlert = (client) => {
         swal({
-          title: "لا يوجد عميل بهذا الاسم",
-          icon: "error",
+            title: "هل انت متأكد من مسح هذا العميل ؟",
+            text: `(${client.name})`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("تم مسح العميل بنجاح", {
+                    icon: "success",
+                });
+                deleteClient(client.id);
+            } else {
+                swal("لم يتم مسح العميل!");
+            }
         });
-      }
-    } else {
-      setClients(value);
-    }
-  };
+    };
 
-  const ClientUpdate = (client) => {
-    setShowUpdateClient(!showUpdateClient);
-    setUpdateClient(client);
-  };
+    const deleteClient = (id) => {
+        api.delete(`/api/clients/delete/${id}`);
+        setClients(clients.filter((clinet) => clinet.id !== id));
+    };
 
-  const deleteAlert = (client) => {
-    swal({
-      title: "هل انت متأكد من مسح هذا العميل ؟",
-      text: `(${client.name})`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal("تم مسح العميل بنجاح", {
-          icon: "success",
-        });
-        deleteClient(client.id);
-      } else {
-        swal("لم يتم مسح العميل!");
-      }
-    });
-  };
+    const getTotalMoney = () => {
+        if (clients) {
+            let totalMoney = 0.0;
+            for (let x = 0; x < clients.length; x++) {
+                totalMoney += parseFloat(clients[x].totalCash);
+            }
+            return totalMoney;
+        }
+    };
+    const getTotalReceivedMoney = () => {
+        if (clients) {
+            let totalReceivedMoney = 0.0;
+            for (let x = 0; x < clients.length; x++) {
+                totalReceivedMoney += parseFloat(clients[x].receivedCash);
+            }
+            return totalReceivedMoney;
+        }
+    };
 
-  const deleteClient = (id) => {
-    api.delete(`/api/clients/delete/${id}`);
-    setClients(clients.filter((clinet) => clinet.id !== id));
-  };
+    const openInvoisePage = (id) => {
+        navigate(`/invoises/${id}`);
+    };
+    const openReceivedCashPage = (id) => {
+        navigate(`/receivedcash/${id}`);
+    };
+    const openAddtionalsPage = (id) => {
+        navigate(`/additionals/${id}`);
+    };
 
-  const getTotalMoney = () => {
-    if (clients) {
-      let totalMoney = 0.0;
-      for (let x = 0; x < clients.length; x++) {
-        totalMoney += parseFloat(clients[x].totalCash);
-      }
-      return totalMoney;
-    }
-  };
-  const getTotalReceivedMoney = () => {
-    if (clients) {
-      let totalReceivedMoney = 0.0;
-      for (let x = 0; x < clients.length; x++) {
-        totalReceivedMoney += parseFloat(clients[x].receivedCash);
-      }
-      return totalReceivedMoney;
-    }
-  };
-
-  const openInvoisePage = (id) => {
-    navigate(`/invoises/${id}`);
-  };
-  const openReceivedCashPage = (id) => {
-    navigate(`/receivedcash/${id}`);
-  };
-  const openAddtionalsPage = (id) => {
-    navigate(`/additionals/${id}`);
-  };
-
-  return (
-    <div className="clients-page">
-      <h1 className="page-title">العملاء</h1>
-      <div className="search-bar">
-        <img onClick={() => searchClient(search)} src={img} alt="" />
-        <input
-          type="text"
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="أبحث عن عميل ..."
-        />
-        {search && dropDownOne && (
-          <div className="drop-menu">
-            {clients
-              .filter((client) => {
-                const value = search.toLowerCase();
-                const c = client.name.toLowerCase();
-
-                return value && c.startsWith(value) && c && value !== c;
-              })
-              .map((client) => (
-                <span onClick={() => clientClicked(client)} key={client.id}>
-                  {client.name}
-                </span>
-              ))}
-          </div>
-        )}
-      </div>
-      <div className="page-content">
-        <div>
-          <button onClick={showNewClinet} className="add-btn">
-            أضافة عميل جديد
-          </button>
-          {newClient && (
-            <>
-              <span className="over-layout"></span>
-              <div className="clinet-form focused">
-                <span onClick={showNewClinet}>
-                  <i className="fa-solid fa-xmark"></i>
-                </span>
-                <ClientForm route="/api/clients/" method="addClient" />
-              </div>
-            </>
-          )}
-          {showUpdateClient && (
-            <>
-              <span className="over-layout"></span>
-              <div className="clinet-form focused">
-                <span onClick={() => setShowUpdateClient(false)}>
-                  <i className="fa-solid fa-xmark"></i>
-                </span>
-                <ClientForm
-                  route={`/api/clients/update/${updateClient.id}`}
-                  method={"editClient"}
-                  clientName={updateClient.name}
-                  clientPhone={updateClient.phone}
+    return (
+        <div className="clients-page">
+            <h1 className="page-title">العملاء</h1>
+            <div className="search-bar">
+                <img onClick={() => searchClient(search)} src={img} alt="" />
+                <input
+                    type="text"
+                    name="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="أبحث عن عميل ..."
                 />
-              </div>
-            </>
-          )}
-          <div className="total-cash">
-            <span>اجمالي حساب العملاء</span>
-            <span className="heighlight-text">{getTotalMoney()}</span>
-          </div>
-          <div className="total-received-cash">
-            <span>اجمالي النقديه المدفوعة</span>
-            <span className="heighlight-text">{getTotalReceivedMoney()}</span>
-          </div>
-        </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <td>اسم العميل</td>
-              <td>هاتف العميل</td>
-              <td>النقديه المدفوعه</td>
-              <td>اجمالي الحساب</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            {clients.length != 0 ? (
-              clients.map((client) => (
-                <tr key={client.id}>
-                  <ClientRow client={client} />
-                  <td>
-                    <div className="con">
-                      <img
-                        onClick={() => toggleDropDown(client.id)}
-                        src={paperImg}
-                        alt=""
-                      />
-                      {selectedRow === client.id && (
-                        <div key={client.id} className="drop-menu">
-                          <span onClick={() => openInvoisePage(client.id)}>
-                            الفواتير
-                          </span>
-                          <span onClick={() => openReceivedCashPage(client.id)}>
-                            النقديه المستلمه
-                          </span>
-                          <span onClick={() => openAddtionalsPage(client.id)}>
-                            الاضافات الخارجيه
-                          </span>
-                        </div>
-                      )}
+                {search && dropDownOne && (
+                    <div className="drop-menu">
+                        {clients
+                            .filter((client) => {
+                                const value = search.toLowerCase();
+                                const c = client.name.toLowerCase();
+
+                                return (
+                                    value &&
+                                    c.startsWith(value) &&
+                                    c &&
+                                    value !== c
+                                );
+                            })
+                            .map((client) => (
+                                <span
+                                    onClick={() => clientClicked(client)}
+                                    key={client.id}>
+                                    {client.name}
+                                </span>
+                            ))}
                     </div>
-                    <i
-                      onClick={() => ClientUpdate(client)}
-                      className="fa-solid fa-pen-to-square"
-                    ></i>
-                    <i
-                      onClick={() => deleteAlert(client)}
-                      className="fa-solid fa-trash"
-                    ></i>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr key={0} className="notfound">
-                <td>لا يوجد عملاء مضافة</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+                )}
+            </div>
+            <div className="page-content">
+                <div>
+                    <button onClick={showNewClinet} className="add-btn">
+                        أضافة عميل جديد
+                    </button>
+                    {newClient && (
+                        <>
+                            <span className="over-layout"></span>
+                            <div className="clinet-form focused">
+                                <span onClick={showNewClinet}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </span>
+                                <ClientForm
+                                    route="/api/clients/"
+                                    method="addClient"
+                                />
+                            </div>
+                        </>
+                    )}
+                    {showUpdateClient && (
+                        <>
+                            <span className="over-layout"></span>
+                            <div className="clinet-form focused">
+                                <span
+                                    onClick={() => setShowUpdateClient(false)}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </span>
+                                <ClientForm
+                                    route={`/api/clients/update/${updateClient.id}`}
+                                    method={"editClient"}
+                                    clientName={updateClient.name}
+                                    clientPhone={updateClient.phone}
+                                />
+                            </div>
+                        </>
+                    )}
+                    {selectedRow === selectedClient.id && (
+                        <>
+                            <span className="over-layout"></span>
+                            <div
+                                key={selectedClient.id}
+                                className="drop-menu focused">
+                                <span
+                                    onClick={() =>
+                                        openInvoisePage(selectedClient.id)
+                                    }>
+                                    الفواتير
+                                </span>
+                                <span
+                                    onClick={() =>
+                                        openReceivedCashPage(selectedClient.id)
+                                    }>
+                                    النقديه المستلمه
+                                </span>
+                                <span
+                                    onClick={() =>
+                                        openAddtionalsPage(selectedClient.id)
+                                    }>
+                                    الاضافات الخارجيه
+                                </span>
+                            </div>
+                        </>
+                    )}
+
+                    <div className="total-cash">
+                        <span>اجمالي حساب العملاء</span>
+                        <span className="heighlight-text">
+                            {getTotalMoney()}
+                        </span>
+                    </div>
+                    <div className="total-received-cash">
+                        <span>اجمالي النقديه المدفوعة</span>
+                        <span className="heighlight-text">
+                            {getTotalReceivedMoney()}
+                        </span>
+                    </div>
+                </div>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <td>اسم العميل</td>
+                            <td>هاتف العميل</td>
+                            <td>النقديه المدفوعه</td>
+                            <td>اجمالي الحساب</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {clients.length != 0 ? (
+                            clients.map((client) => (
+                                <tr key={client.id}>
+                                    <ClientRow client={client} />
+                                    <td>
+                                        <img
+                                            onClick={() => {
+                                                setSelectedClient(client);
+                                                toggleDropDown(client.id);
+                                            }}
+                                            src={paperImg}
+                                            alt=""
+                                        />
+                                        <i
+                                            onClick={() => ClientUpdate(client)}
+                                            className="fa-solid fa-pen-to-square"></i>
+                                        <i
+                                            onClick={() => deleteAlert(client)}
+                                            className="fa-solid fa-trash"></i>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr key={0} className="notfound">
+                                <td>لا يوجد عملاء مضافة</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 };
 
 export default Clients;
