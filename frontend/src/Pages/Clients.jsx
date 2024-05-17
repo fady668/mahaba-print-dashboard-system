@@ -203,24 +203,24 @@ const Clients = () => {
                             <div
                                 key={selectedClient.id}
                                 className="drop-menu focused">
-                                <span
+                                <p
                                     onClick={() =>
                                         openInvoisePage(selectedClient.id)
                                     }>
                                     الفواتير
-                                </span>
-                                <span
+                                </p>
+                                <p
                                     onClick={() =>
                                         openReceivedCashPage(selectedClient.id)
                                     }>
                                     النقديه المستلمه
-                                </span>
-                                <span
+                                </p>
+                                <p
                                     onClick={() =>
                                         openAddtionalsPage(selectedClient.id)
                                     }>
                                     الاضافات الخارجيه
-                                </span>
+                                </p>
                             </div>
                         </>
                     )}
