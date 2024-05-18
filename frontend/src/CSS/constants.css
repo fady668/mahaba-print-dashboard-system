@@ -1,4 +1,25 @@
 /* Constants Classes */
+.left-part::before {
+    content: "";
+    position: absolute;
+    background-color: #fc91b5;
+    width: 115px;
+    height: 641px;
+    top: -37px;
+    left: -59px;
+    transform: rotate(11deg);
+}
+.left-part::after {
+    content: "";
+    position: absolute;
+    background-color: #fc91b588;
+    width: 115px;
+    height: 641px;
+    top: -37px;
+    left: -11px;
+    transform: rotate(11deg);
+    z-index: -1;
+}
 .page-title {
     position: relative;
     width: fit-content;
