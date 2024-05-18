@@ -1,6 +1,7 @@
 :root {
     --main-background: #f1f5f9;
     --shadow-background: #cbcbcb;
+    --page-background: #ef018d;
     --button-blue-background: #00adf1;
     --danger-background: #ee0d58;
     --button-green-background: #4caf50;
@@ -9,6 +10,7 @@
 }
 body {
     background-color: var(--main-background);
+    overflow: hidden;
 }
 
 /* Login Page */

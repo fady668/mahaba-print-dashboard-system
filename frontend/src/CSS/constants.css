@@ -1,4 +1,14 @@
 /* Constants Classes */
+.left-part::before {
+    content: "";
+    position: absolute;
+    background-color: var(--shadow-background);
+    width: 115px;
+    height: 641px;
+    top: -37px;
+    left: -59px;
+    transform: rotate(11deg);
+}
 .page-title {
     position: relative;
     width: fit-content;
