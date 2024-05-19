@@ -95,7 +95,7 @@ const InvoiseForm = (props) => {
   const [kas_ckb, setKas_ckb] = useState(false);
 
   const [sals, setSals] = useState({});
-  const [invoiseId, setInvoiseId] = useState("");
+  // const [invoiseId, setInvoiseId] = useState("");
 
   useEffect(() => {
     getZenkSal();
@@ -283,40 +283,48 @@ const InvoiseForm = (props) => {
       client,
     };
 
-    const invoiseSals = {
-      k_sal: sals["k_sal"],
-      y_sal: sals["y_sal"],
-      m_sal: sals["m_sal"],
-      c_sal: sals["c_sal"],
-      zahabi_sal: sals["zahabi_sal"],
-      faddi_sal: sals["faddi_sal"],
-      sapgha_sal: sals["sapgha_sal"],
-      warnish_sal: sals["warnish_sal"],
-      kohley_sal: sals["kohley_sal"],
-      special_sal: sals["special_sal"],
-      slofan_sal: sals["slofan_sal"],
-      taksir_sal: sals["taksir_sal"],
-      UV_sal: sals["UV_sal"],
-      film_sal: sals["film_sal"],
-      zenk_sal: sals["zenk_sal"],
-      invoise: invoiseId,
-    };
-
     if (method === "add") {
       api
         .post(route, invoise)
-        .then((res) => setInvoiseId(res.data.id))
-        .catch((e) => console.log(e.response.data));
-      api
-        .post(slasRoute, invoiseSals)
-        .catch((e) => console.log(e.response.data));
+        .then((res) => postInvoiseSals())
+        .catch((e) => {
+          console.log("invoise Error");
+          console.log(e.response.data);
+        });
     } else if (method === "edit") {
       api.patch(route, invoise).catch((e) => console.log(e.response.data));
     }
   };
+
+  const postInvoiseSals = () => {
+    if (method === "add") {
+      const invoiseSals = {
+        k_sal: sals["k_sal"],
+        y_sal: sals["y_sal"],
+        m_sal: sals["m_sal"],
+        c_sal: sals["c_sal"],
+        zahabi_sal: sals["zahabi_sal"],
+        faddi_sal: sals["faddi_sal"],
+        sapgha_sal: sals["sapgha_sal"],
+        warnish_sal: sals["warnish_sal"],
+        kohley_sal: sals["kohley_sal"],
+        special_sal: sals["special_sal"],
+        slofan_sal: sals["slofan_sal"],
+        taksir_sal: sals["taksir_sal"],
+        UV_sal: sals["UV_sal"],
+        film_sal: sals["film_sal"],
+        zenk_sal: sals["zenk_sal"],
+        invoise: props.invoiseId,
+      };
+      api.post(slasRoute, invoiseSals).catch((e) => {
+        console.log("Sals Error");
+        console.log(e.response.data);
+      });
+    }
+  };
   const print = () => {
-    postInvoise();
-    // window.print();
+    // postInvoise();
+    window.print();
   };
 
   return (
