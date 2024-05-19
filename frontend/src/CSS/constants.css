@@ -293,6 +293,12 @@
   transition: 0.3s;
   cursor: pointer;
 }
+.form-button.gray {
+  background-color: var(--button-gray-background);
+}
+.form-button.gray:hover {
+  background-color: #4a616b;
+}
 .form-button:hover {
   background-color: #10803d;
 }
@@ -301,6 +307,10 @@ form div.inner-con {
   justify-content: space-between;
   width: 100%;
   align-items: center;
+}
+form div.inner-con.rev {
+  flex-direction: column-reverse;
+  gap: 5px;
 }
 form div.inner-con label {
   margin-left: 10px;

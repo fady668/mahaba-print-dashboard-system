@@ -25,25 +25,27 @@ const SalariesForm = (props) => {
   }, []);
 
   const getSals = async () => {
-    const res = await api.get(route);
-    const data = await res.data;
-    setSals(data);
-    if (data.length !== 0) {
-      setK_sal(data[0].k_sal);
-      setY_sal(data[0].y_sal);
-      setM_sal(data[0].m_sal);
-      setC_sal(data[0].c_sal);
-      setZahabi_sal(data[0].zahabi_sal);
-      setFaddi_sal(data[0].faddi_sal);
-      setSapgha_sal(data[0].sapgha_sal);
-      setWarnish_sal(data[0].warnish_sal);
-      setKohley_sal(data[0].kohley_sal);
-      setSpecial_sal(data[0].special_sal);
-      setSlofan_sal(data[0].slofan_sal);
-      setTaksir_sal(data[0].taksir_sal);
-      setUV_sal(data[0].UV_sal);
-      setFilm_sal(data[0].film_sal);
-      setZenk_sal(data[0].zenk_sal);
+    if (props.type !== "show") {
+      const res = await api.get(route);
+      const data = await res.data;
+      setSals(data);
+      if (data.length !== 0) {
+        setK_sal(data[0].k_sal);
+        setY_sal(data[0].y_sal);
+        setM_sal(data[0].m_sal);
+        setC_sal(data[0].c_sal);
+        setZahabi_sal(data[0].zahabi_sal);
+        setFaddi_sal(data[0].faddi_sal);
+        setSapgha_sal(data[0].sapgha_sal);
+        setWarnish_sal(data[0].warnish_sal);
+        setKohley_sal(data[0].kohley_sal);
+        setSpecial_sal(data[0].special_sal);
+        setSlofan_sal(data[0].slofan_sal);
+        setTaksir_sal(data[0].taksir_sal);
+        setUV_sal(data[0].UV_sal);
+        setFilm_sal(data[0].film_sal);
+        setZenk_sal(data[0].zenk_sal);
+      }
     }
   };
 
@@ -247,9 +249,11 @@ const SalariesForm = (props) => {
           />
         </div>
       </div>
-      <button type="submit" className="form-button">
-        تسجيل الاسعار
-      </button>
+      {props.type !== "show" && (
+        <button type="submit" className="form-button">
+          تسجيل الاسعار
+        </button>
+      )}
     </form>
   );
 };

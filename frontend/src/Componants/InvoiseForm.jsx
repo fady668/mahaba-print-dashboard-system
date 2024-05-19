@@ -323,12 +323,12 @@ const InvoiseForm = (props) => {
     }
   };
   const print = () => {
-    // postInvoise();
-    window.print();
+    postInvoise();
+    // window.print();
   };
 
   return (
-    <form onSubmit={() => postInvoise()}>
+    <form onSubmit={(e) => postInvoise()}>
       <div className="form-invoise-con">
         <div className="inner-con">
           <label>اسم العملية</label>
@@ -1164,8 +1164,11 @@ const InvoiseForm = (props) => {
         <button type="submit" className="form-button">
           {method === "add" ? "حفظ الفاتورة" : "تعديل الفاتورة"}
         </button>
+        {method === "edit" && (
+          <button className="form-button gray">الاسعار</button>
+        )}
         <div className="inner-con">
-          <div className="inner-con">
+          <div className="inner-con rev">
             <input
               type="checkbox"
               checked={done}

@@ -75,24 +75,19 @@ const Invoises = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        swal("تم مسح الفاتوره بنجاح", {
-          icon: "success",
-        });
-        deleteInvoise(invoise.id);
+        deleteInvoise(invoise);
       } else {
         swal("لم يتم مسح الفاتوره!");
       }
     });
   };
 
-  const deleteInvoise = (id) => {
-    api.delete(`/api/invoises/delete/${id}`);
+  const deleteInvoise = (invoise) => {
+    api.delete(`/api/invoises/delete/${invoise.id}`);
     setClientInvoises(
-      clientInvoises.filter((invoise) => {
-        invoise.id !== id;
-        setClientTotalCash(client["totalCash"] - invoise.id["total_cash"]);
-      })
+      clientInvoises.filter((inner_invoise) => inner_invoise.id !== invoise.id)
     );
+    window.location.reload();
   };
 
   return (
