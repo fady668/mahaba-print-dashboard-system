@@ -62,6 +62,30 @@ class InvoisesView(generics.ListCreateAPIView):
         ClientModel = Client.objects.get(name=serializer.validated_data['client'])
         salariesModel = Salaries.objects.get(id=1)
         data = serializer.validated_data
+        # Name counter
+        invoiseModel = Invoise.objects.all()
+        currentName = data.get('name')
+        name_lst = []
+        newName = ''
+
+        for x in invoiseModel:
+            name_lst.append(x.name)
+
+        if currentName in name_lst:
+            for n in name_lst:
+                    if '(' in n:
+                        n_p1 = n[:n.find('(')]
+                        n_p2 = n[n.find('('):]
+                        name_num = int(str(n_p2[1:]).strip(')'))
+
+                        if n_p1.strip() == currentName :
+                            newName = currentName + f' ({name_num + 1})'
+                    else:    
+                        newName = currentName + ' (2)'
+        else:
+            newName = currentName
+
+        serializer.validated_data['name'] = newName
         # Vars
         paper_taraf = data['paper_taraf']
         paper_count = data.get('paper_count')

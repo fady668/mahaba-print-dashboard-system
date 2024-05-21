@@ -198,7 +198,7 @@ class InvoiseSalaries(models.Model):
     film_sal = models.DecimalField(max_digits=15, decimal_places=2, blank=False, default=Decimal(0.00))
     zenk_sal = models.DecimalField(max_digits=15, decimal_places=1, blank=False, default=Decimal(0.00))
 
-    invoise = models.ForeignKey(Invoise, on_delete=models.CASCADE)
+    invoise = models.CharField(max_length=50)
 
 class ReceivedCash(models.Model):
     PUSH_WAY_CHOICES = [
