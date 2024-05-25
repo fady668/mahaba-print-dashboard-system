@@ -490,13 +490,6 @@ class SalariesUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Salaries.objects.all()
 
-# class SalariesDeleteView(generics.DestroyAPIView):
-#     serializer_class = SalariesSerializer
-#     permission_classes = [IsAuthenticated]
-
-#     def get_queryset(self):
-#         return Salaries.objects.all()
-    
 # invoise Salaries
 class InvoiseSalariesView(generics.ListCreateAPIView):
     serializer_class = InvoiseSalariesSerializer
@@ -525,6 +518,73 @@ class InvoiseSalariesByNameView(generics.RetrieveUpdateDestroyAPIView):
             serializer.save()
         else :
             print(serializer.errors)
+
+# Received Cash Views
+class ReceivedCashView(generics.ListCreateAPIView):
+    serializer_class = ReceivedCashSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return ReceivedCash.objects.all()
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            data = serializer.validated_data
+            client = Client.objects.get(name=data.get('client'))
+            invoises = Invoise.objects.filter(client=data.get('client'))
+            # Received cash logic
+            client.totalCash -= Decimal(data.get('received_value'))
+            receivedValue = data.get('received_value')
+            for x in invoises:
+                if receivedValue >= x.total_cash:
+                    receivedValue -= x.total_cash
+                    print("done")
+                    print(receivedValue)
+                    x.done = True
+                    x.save()
+                    
+            client.save()
+            serializer.save()
+        else:
+            print(serializer.errors)
+    
+class ReceivedCashByClientName(generics.ListAPIView):
+    serializer_class = ReceivedCashSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        clientId = self.kwargs.get("cl")
+        return ReceivedCash.objects.filter(client=clientId)
+    
+class ReceivedCashById(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ReceivedCashSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        cashId = self.kwargs.get("pk")
+        return ReceivedCash.objects.filter(id=cashId)
+    
+class ReceivedCashUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ReceivedCashSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return ReceivedCash.objects.all()
+    
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            client = Client.objects.get(name=serializer.validated_data.get('client'))
+            client.totalCash -= Decimal(serializer.validated_data.get('received_value'))
+            client.save()
+            serializer.save()
+        else:
+            print(serializer.errors)
+            
+    def perform_destroy(self, instance):
+        client = instance.client
+        client.totalCash += Decimal(instance.received_value)
+        client.save()
+        instance.delete()
     
 # Additional Views
 class AdditionalsView(generics.ListCreateAPIView):
@@ -570,65 +630,6 @@ class AdditionalsUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         client = instance.client
         client.totalCash -= Decimal(instance.total)
-        client.save()
-        instance.delete()
-
-# Received Cash Views
-class ReceivedCashView(generics.ListCreateAPIView):
-    serializer_class = ReceivedCashSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return ReceivedCash.objects.all()
-
-    def perform_create(self, serializer):
-        if serializer.is_valid():
-            data = serializer.validated_data
-            client = Client.objects.get(name=data.get('client'))
-            invoises = Invoise.objects.filter(client=data.get('client'))
-            # Received cash logic
-            client.totalCash -= Decimal(data.get('received_value'))
-            receivedValue = data.get('received_value')
-            for x in invoises:
-                if receivedValue >= x.total_cash:
-                    receivedValue -= x.total_cash
-                    print("done")
-                    print(receivedValue)
-                    x.done = True
-                    x.save()
-                    
-            client.save()
-            serializer.save()
-        else:
-            print(serializer.errors)
-    
-class ReceivedCashByClientName(generics.ListAPIView):
-    serializer_class = ReceivedCashSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        clientId = self.kwargs.get("cl")
-        return ReceivedCash.objects.filter(client=clientId)
-    
-class ReceivedCashUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ReceivedCashSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return ReceivedCash.objects.all()
-    
-    def perform_update(self, serializer):
-        if serializer.is_valid():
-            client = Client.objects.get(name=serializer.validated_data.get('client'))
-            client.totalCash -= Decimal(serializer.validated_data.get('received_value'))
-            client.save()
-            serializer.save()
-        else:
-            print(serializer.errors)
-            
-    def perform_destroy(self, instance):
-        client = instance.client
-        client.totalCash += Decimal(instance.received_value)
         client.save()
         instance.delete()
 
