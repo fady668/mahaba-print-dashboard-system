@@ -529,7 +529,7 @@ i.eye {
   left: var(--left-page-left-value);
   margin-top: 0;
   animation-duration: 0.3s;
-  animation-name: kashf-title-ani;
+  animation-name: kashf-page-ani;
 }
 @keyframes kashf-page-ani {
   from {
