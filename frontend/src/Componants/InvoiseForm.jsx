@@ -321,6 +321,9 @@ const InvoiseForm = (props) => {
             api.patch(route, invoise).catch((e) =>
                 console.log(e.response.data)
             );
+            api.patch(slasRoute, invoiseSals).catch((e) =>
+                console.log(e.response.data)
+            );
         }
     };
 

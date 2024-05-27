@@ -258,6 +258,7 @@ class InvoisesView(generics.ListCreateAPIView):
             UV_sal = salariesModel.UV_sal,
             film_sal = salariesModel.film_sal,
             zenk_sal = salariesModel.zenk_sal,
+            owner = self.request.user,
             invoise = serializer.validated_data.get("name"),
         )
 
@@ -517,7 +518,7 @@ class InvoiseSalariesByNameView(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=self.request.user)
         else :
             print(serializer.errors)
 
