@@ -137,7 +137,7 @@
   border-bottom-right-radius: 60px;
   cursor: pointer;
 }
-.search-bar .drop-menu {
+.search-drop-menu {
   position: absolute;
   top: 110%;
   width: 100%;
@@ -148,12 +148,12 @@
   background-color: white;
   box-shadow: 0 0 15px -5px;
 }
-.search-bar .drop-menu span {
+.search-drop-menu span {
   cursor: pointer;
   display: block;
   padding: 10px;
 }
-.search-bar .drop-menu span:not(:last-child) {
+.search-drop-menu span:not(:last-child) {
   border-bottom: 1px solid var(--shadow-background);
 }
 .add-btn {
@@ -358,4 +358,34 @@ input.form-input.small {
   position: absolute;
   right: -55px;
   font-size: 19px;
+}
+.drop-menu {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 10px !important;
+  border-radius: 19px !important;
+}
+.drop-menu p {
+  display: flex;
+  transition: 0.3s;
+  cursor: pointer;
+  pointer-events: auto !important;
+  text-align: center;
+  text-wrap: nowrap;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 10px;
+  min-width: 360px;
+  height: 255px;
+  justify-content: center;
+  align-items: center;
+}
+.drop-menu p:hover {
+  background-color: #d4d4ea;
+  text-decoration: underline;
+}
+.drop-menu p img {
+  height: 35px;
+  margin-left: 10px;
 }

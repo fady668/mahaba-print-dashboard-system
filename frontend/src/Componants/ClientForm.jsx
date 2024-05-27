@@ -25,7 +25,6 @@ const ClientForm = ({ route, method, clientName, clientPhone }) => {
         } else if (method === "editClient") {
             api.patch(route, { name, phone });
         }
-        // return <Navigate to={"/clients"} />;
     };
 
     return (

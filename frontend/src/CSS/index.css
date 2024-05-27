@@ -8,6 +8,7 @@
   --button-green-background: #4caf50;
   --button-gray-background: #607d8b;
   --border-color: #b1b1b1;
+  --left-page-left-value: calc(50% - 150px);
 }
 body {
   background-color: var(--main-background);
@@ -312,36 +313,6 @@ i.eye {
   align-items: center;
   gap: 20px;
 }
-.drop-menu {
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  padding: 10px 10px !important;
-  border-radius: 19px !important;
-}
-.drop-menu p {
-  display: flex;
-  transition: 0.3s;
-  cursor: pointer;
-  pointer-events: auto !important;
-  text-align: center;
-  text-wrap: nowrap;
-  font-size: 30px;
-  font-weight: bold;
-  border-radius: 10px;
-  min-width: 360px;
-  height: 255px;
-  justify-content: center;
-  align-items: center;
-}
-.drop-menu p:hover {
-  background-color: #d4d4ea;
-  text-decoration: underline;
-}
-.drop-menu p img {
-  height: 35px;
-  margin-left: 10px;
-}
 /* Invoises Page */
 .client-name {
   position: absolute;
@@ -412,7 +383,6 @@ i.eye {
   text-wrap: nowrap;
 }
 .invoise-form .colors {
-  /* padding: 7px 10px; */
   position: relative;
   width: fit-content;
   margin-right: 50px;
@@ -511,6 +481,62 @@ i.eye {
   }
   .btns {
     display: none;
+  }
+}
+/* Kash Page */
+.kashf-form {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 150px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  gap: 30px;
+  font-size: 30px;
+  padding: 50px !important;
+  background-color: white;
+  border-radius: 45px;
+  width: 700px;
+}
+.kashf-form .fa-user,
+.kashf-form-label {
+  font-size: 40px;
+  color: var(--button-gray-background);
+}
+.kashf-form-label {
+  font-weight: bold;
+}
+.kashf-form .form-input {
+  width: 50%;
+  position: relative;
+}
+.kashf-drop-menu {
+  top: 230px !important;
+  width: 50% !important;
+  font-size: 17px;
+  border-radius: 10px;
+}
+.kashf-form .kashf-form-btn {
+  font-size: 25px;
+  width: 70%;
+  margin: 0;
+}
+.kashf-page .kashf-client-title {
+  border-radius: 20px;
+  top: 50px;
+  left: var(--left-page-left-value);
+  margin-top: 0;
+  animation-duration: 0.3s;
+  animation-name: kashf-title-ani;
+}
+@keyframes kashf-page-ani {
+  from {
+    margin-top: 50px;
+  }
+  to {
+    margin-top: 0;
   }
 }
 

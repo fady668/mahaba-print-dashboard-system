@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Client(models.Model):
-    name = models.CharField(max_length=50, unique=True, verbose_name="اسم العميل")
+    name = models.CharField(max_length=50, verbose_name="اسم العميل")
     phone = models.CharField(max_length=50, verbose_name="هاتف العميل", blank=True)
     receivedCash = models.DecimalField(verbose_name="النقديه المتبقيه", max_digits=15, decimal_places=2, default=Decimal(0.00))
     totalCash = models.DecimalField(verbose_name="اجمالي النقديه", max_digits=15, decimal_places=2, default=Decimal(0.00))
@@ -155,6 +155,7 @@ class Invoise(models.Model):
     kas_ckb = models.BooleanField(default=False)
 
     total_cash = models.DecimalField(default=Decimal(0.00), max_digits=10, decimal_places=2)
+    remaining_cash = models.DecimalField(default=Decimal(0.00), max_digits=10, decimal_places=2)
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="الفواتير")
 
@@ -179,6 +180,7 @@ class Salaries(models.Model):
     UV_sal = models.DecimalField(max_digits=15, decimal_places=2, blank=False, default=Decimal(0.00))
     film_sal = models.DecimalField(max_digits=15, decimal_places=2, blank=False, default=Decimal(0.00))
     zenk_sal = models.DecimalField(max_digits=15, decimal_places=1, blank=False, default=Decimal(0.00))
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class InvoiseSalaries(models.Model):
@@ -197,6 +199,7 @@ class InvoiseSalaries(models.Model):
     UV_sal = models.DecimalField(max_digits=15, decimal_places=2, blank=False, default=Decimal(0.00))
     film_sal = models.DecimalField(max_digits=15, decimal_places=2, blank=False, default=Decimal(0.00))
     zenk_sal = models.DecimalField(max_digits=15, decimal_places=1, blank=False, default=Decimal(0.00))
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     invoise = models.CharField(max_length=50)
 

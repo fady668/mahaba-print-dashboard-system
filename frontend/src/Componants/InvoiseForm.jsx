@@ -1240,15 +1240,6 @@ const InvoiseForm = (props) => {
                         </a>
                     )}
                     <div className="inner-con">
-                        <div className="inner-con rev">
-                            <input
-                                type="checkbox"
-                                checked={done}
-                                onChange={(e) => setDone(e.target.checked)}
-                                name="Done"
-                            />
-                            <label>تم دفع</label>
-                        </div>
                         <img src={printImg} alt="print-img" onClick={print} />
                     </div>
                 </div>

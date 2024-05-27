@@ -1,11 +1,13 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../Constants";
 import { useState, useEffect } from "react";
 import api from "../api";
+import swal from "sweetalert";
 
 function ProtectedRoute({ children }) {
   const [isAuthorized, setIsAuthorized] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     auth().catch(() => setIsAuthorized(false));

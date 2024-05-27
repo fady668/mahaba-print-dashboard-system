@@ -139,7 +139,7 @@ const Clients = () => {
           placeholder="أبحث عن عميل ..."
         />
         {search && dropDownOne && (
-          <div className="drop-menu">
+          <div className="search-drop-menu">
             {clients
               .filter((client) => {
                 const value = search.toLowerCase();

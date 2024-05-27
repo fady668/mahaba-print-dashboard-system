@@ -112,7 +112,7 @@ const Invoises = () => {
           placeholder="أبحث عن فاتورة ..."
         />
         {search && dropDownOne && (
-          <div className="drop-menu">
+          <div className="search-drop-menu">
             {clientInvoises
               .filter((invoise) => {
                 const value = search.toLowerCase();

@@ -42,6 +42,9 @@ class SalariesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Salaries
         fields = '__all__'
+        extra_kwargs = {
+            "owner" : {"read_only" : True},
+        }
 
     def create(self, validated_data):
             salaries = Salaries.objects.create(**validated_data)
@@ -51,6 +54,9 @@ class InvoiseSalariesSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiseSalaries
         fields = '__all__'
+        extra_kwargs = {
+            "owner" : {"read_only" : True},
+        }
 
     def create(self, validated_data):
             invoiseSalaries = InvoiseSalaries.objects.create(**validated_data)

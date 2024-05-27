@@ -31,10 +31,6 @@ const ReceivedCashFrom = (props) => {
     }
   };
 
-  const submit = () => {
-    formSubmit();
-  };
-
   return (
     <form onSubmit={() => formSubmit()}>
       <h1 className="form-head">{formTitle}</h1>
