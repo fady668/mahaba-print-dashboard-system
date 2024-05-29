@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api";
 import img from "../Images/search-icon.jpg";
@@ -12,6 +12,7 @@ const Invoises = () => {
   const [client, setClient] = useState({});
   const [clientTotalCash, setClientTotalCash] = useState(0);
   const [clientInvoises, setClientInvoises] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [invoiseSals, setInvoiseSals] = useState([]);
   const [deletedInvoiseSalsId, setDeletedInvoiseSalsId] = useState("");
   const [search, setSearch] = useState("");
@@ -33,8 +34,10 @@ const Invoises = () => {
     setClient(res.data[0]);
   };
   const getClientInvoises = async () => {
+    setIsPending(true);
     const res = await api.get(`api/invoises/${clientId}`);
     const data = await res.data;
+    setIsPending(false);
     setClientInvoises(data);
   };
   const getInvoisesSals = async () => {
@@ -211,6 +214,8 @@ const Invoises = () => {
                   </td>
                 </tr>
               ))
+            ) : isPending ? (
+              <span className="loading table-loading"></span>
             ) : (
               <tr key={0} className="notfound">
                 <td>لا يوجد فواتير مضافة</td>

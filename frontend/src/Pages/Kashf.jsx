@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 import arrow from "../Images/left-arrow.png";
+import InvoiseRow from "../Componants/InvoiseRow";
+import AdditionalRow from "../Componants/AdditionalRow";
 
 const Kashf = () => {
   const [clients, setClients] = useState([]);
   const [clientOfKashf, setClientOfKashf] = useState({});
+  const [clientInvoises, setClientInvoises] = useState([]);
+  const [clientAdditionals, setClientAdditionals] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [select, setSelect] = useState("");
   const [dropDown, setDropDown] = useState(true);
   const [showClientForm, setShowClientForm] = useState(true);
@@ -18,11 +23,29 @@ const Kashf = () => {
     setClients(res.data);
   };
 
+  const getClientInvoises = async (clientId) => {
+    setIsPending(true);
+    const res = await api.get(`api/invoises/${clientId}`);
+    const data = await res.data;
+    setIsPending(false);
+    setClientInvoises(data);
+  };
+
+  const getClientAdditionals = async (clientId) => {
+    setIsPending(true);
+    const res = await api.get(`api/additionals/byclientid/${clientId}`);
+    const data = await res.data;
+    setIsPending(false);
+    setClientAdditionals(data);
+  };
+
   const clientClicked = (client) => {
     setSelect(client.name);
     setClientOfKashf(client);
     setDropDown(false);
     setShowClientForm(false);
+    getClientInvoises(client.id);
+    getClientAdditionals(client.id);
   };
 
   const formSubmit = () => {
@@ -76,6 +99,7 @@ const Kashf = () => {
           >
             أختيار عميل اخر <img src={arrow} alt="" />
           </button>
+
           <div className="grid">
             <div className="child kashf-total-cash">
               <p className="title">حساب العميل</p>
@@ -86,8 +110,62 @@ const Kashf = () => {
               <span className="content">{clientOfKashf.receivedCash}</span>
             </div>
           </div>
-          <div className="kashf-invoises"></div>
-          <div className="kashf-additionals"></div>
+          <div className="kashf-invoises">
+            <table className="table">
+              <thead>
+                <tr>
+                  <td>رقم الفاتوره</td>
+                  <td>اسم الفاتوره</td>
+                  <td>التاريخ</td>
+                  <td>الحساب</td>
+                  <td>الدفع</td>
+                </tr>
+              </thead>
+              <tbody>
+                {clientInvoises.length != 0 ? (
+                  clientInvoises.map((invoise) => (
+                    <tr key={invoise.id} className="sorted-row">
+                      <InvoiseRow invoise={invoise} />
+                    </tr>
+                  ))
+                ) : isPending ? (
+                  <span className="loading table-loading"></span>
+                ) : (
+                  <tr key={0} className="notfound">
+                    <td>لا يوجد فواتير مضافة</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="kashf-additionals">
+            <table className="table">
+              <thead>
+                <tr>
+                  <td>الترتيب</td>
+                  <td>الصنف</td>
+                  <td>العدد</td>
+                  <td>سعر الوحده</td>
+                  <td>الاجمالي</td>
+                </tr>
+              </thead>
+              <tbody>
+                {clientAdditionals.length != 0 ? (
+                  clientAdditionals.map((add) => (
+                    <tr key={add.id} className="sorted-row">
+                      <AdditionalRow additional={add} />
+                    </tr>
+                  ))
+                ) : isPending ? (
+                  <span className="loading table-loading"></span>
+                ) : (
+                  <tr key={0} className="notfound">
+                    <td>لا يوجد أضافات قديمه</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
