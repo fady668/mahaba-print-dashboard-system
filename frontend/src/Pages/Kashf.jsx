@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 import arrow from "../Images/left-arrow.png";
+import printImg from "../Images/download.png";
+import InvoiseRow from "../Componants/InvoiseRow";
+import AdditionalRow from "../Componants/AdditionalRow";
 
 const Kashf = () => {
     const [clients, setClients] = useState([]);
     const [clientOfKashf, setClientOfKashf] = useState({});
+    const [clientInvoises, setClientInvoises] = useState([]);
+    const [clientAdditionals, setClientAdditionals] = useState([]);
+    const [isPending, setIsPending] = useState(false);
     const [select, setSelect] = useState("");
     const [dropDown, setDropDown] = useState(true);
     const [showClientForm, setShowClientForm] = useState(true);
@@ -18,9 +24,20 @@ const Kashf = () => {
         setClients(res.data);
     };
 
-    const getClient = async () => {
-        const res = await api.get(`/api/clients/${selectedClientId}`);
-        setClientOfKashf(res.data);
+    const getClientInvoises = async (clientId) => {
+        setIsPending(true);
+        const res = await api.get(`api/invoises/${clientId}`);
+        const data = await res.data;
+        setIsPending(false);
+        setClientInvoises(data);
+    };
+
+    const getClientAdditionals = async (clientId) => {
+        setIsPending(true);
+        const res = await api.get(`api/additionals/byclientid/${clientId}`);
+        const data = await res.data;
+        setIsPending(false);
+        setClientAdditionals(data);
     };
 
     const clientClicked = (client) => {
@@ -28,10 +45,16 @@ const Kashf = () => {
         setClientOfKashf(client);
         setDropDown(false);
         setShowClientForm(false);
+        getClientInvoises(client.id);
+        getClientAdditionals(client.id);
     };
 
     const formSubmit = () => {
         setShowClientForm(false);
+    };
+
+    const print = () => {
+        window.print();
     };
 
     return (
@@ -56,12 +79,7 @@ const Kashf = () => {
                                     const value = select.toLowerCase();
                                     const c = client.name.toLowerCase();
 
-                                    return (
-                                        value &&
-                                        c.startsWith(value) &&
-                                        c &&
-                                        value !== c
-                                    );
+                                    return value && c.startsWith(value) && c;
                                 })
                                 .map((client) => (
                                     <span
@@ -72,11 +90,6 @@ const Kashf = () => {
                                 ))}
                         </div>
                     )}
-                    <button
-                        type="submit"
-                        className="form-button kashf-form-btn">
-                        اختيار
-                    </button>
                 </form>
             )}
             {!showClientForm && (
@@ -84,27 +97,88 @@ const Kashf = () => {
                     <span className="kashf-client-title heighlight-heading">
                         {clientOfKashf.name}
                     </span>
+                    <span className="print-btn" onClick={print}>
+                        <img src={printImg} alt="" />
+                        طباعة
+                    </span>
                     <button
                         className="step-back"
                         onClick={() => window.location.reload()}>
                         أختيار عميل اخر <img src={arrow} alt="" />
                     </button>
+
                     <div className="grid">
-                        <div className="kashf-total-cash">
+                        <div className="child kashf-total-cash">
                             <p className="title">حساب العميل</p>
                             <span className="content">
                                 {clientOfKashf.totalCash}
                             </span>
                         </div>
-                        <div className="kashf-received-cash">
-                            <p className="title">النقديه المتبقيه</p>
+                        <div className="child kashf-received-cash">
+                            <p className="title">النقديه المستلمه</p>
                             <span className="content">
                                 {clientOfKashf.receivedCash}
                             </span>
                         </div>
                     </div>
-                    <div className="kashf-invoises"></div>
-                    <div className="kashf-additionals"></div>
+                    <div className="kashf-invoises">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <td>رقم الفاتوره</td>
+                                    <td>اسم الفاتوره</td>
+                                    <td>التاريخ</td>
+                                    <td>الحساب</td>
+                                    <td>الدفع</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {clientInvoises.length != 0 ? (
+                                    clientInvoises.map((invoise) => (
+                                        <tr
+                                            key={invoise.id}
+                                            className="sorted-row">
+                                            <InvoiseRow invoise={invoise} />
+                                        </tr>
+                                    ))
+                                ) : isPending ? (
+                                    <span className="loading table-loading"></span>
+                                ) : (
+                                    <tr key={0} className="notfound">
+                                        <td>لا يوجد فواتير مضافة</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="kashf-additionals">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <td>الترتيب</td>
+                                    <td>الصنف</td>
+                                    <td>العدد</td>
+                                    <td>سعر الوحده</td>
+                                    <td>الاجمالي</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {clientAdditionals.length != 0 ? (
+                                    clientAdditionals.map((add) => (
+                                        <tr key={add.id} className="sorted-row">
+                                            <AdditionalRow additional={add} />
+                                        </tr>
+                                    ))
+                                ) : isPending ? (
+                                    <span className="loading table-loading"></span>
+                                ) : (
+                                    <tr key={0} className="notfound">
+                                        <td>لا يوجد أضافات قديمه</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </>
             )}
         </div>

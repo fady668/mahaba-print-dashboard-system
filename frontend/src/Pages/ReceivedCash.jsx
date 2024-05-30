@@ -9,6 +9,7 @@ const ReceivedCash = () => {
   const clientId = useParams().id;
   const [client, setClient] = useState({});
   const [clientReceievedCash, setClientReceievedcash] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [updatedCash, setUpdatedCash] = useState({});
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showReceivedCashForm, setShowReceivedCashForm] = useState(false);
@@ -24,7 +25,9 @@ const ReceivedCash = () => {
   };
 
   const getClientReceievedCash = async () => {
+    setIsPending(true);
     const res = await api.get(`/api/receivedcash/byclientid/${clientId}`);
+    setIsPending(false);
     setClientReceievedcash(res.data);
   };
 
@@ -114,9 +117,11 @@ const ReceivedCash = () => {
                   </td>
                 </tr>
               ))
+            ) : isPending ? (
+              <span className="loading table-loading"></span>
             ) : (
               <tr key={0} className="notfound">
-                <td>لا يوجد دفعات قديمة...</td>
+                <td>لا يوجد نقديه مدفوعه</td>
               </tr>
             )}
           </tbody>

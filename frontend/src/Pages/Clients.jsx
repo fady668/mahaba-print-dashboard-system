@@ -18,6 +18,7 @@ const Clients = () => {
   const [search, setSearch] = useState("");
   const [dropDownOne, setDropDownOne] = useState(true);
   const [clients, setClients] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [newClient, setNewClient] = useState(false);
   const [showUpdateClient, setShowUpdateClient] = useState(false);
   const [updateClient, setUpdateClient] = useState({});
@@ -40,7 +41,9 @@ const Clients = () => {
   };
 
   const getClients = async () => {
+    setIsPending(true);
     const res = await api.get("api/clients");
+    setIsPending(false);
     setClients(res.data);
   };
 
@@ -251,6 +254,8 @@ const Clients = () => {
                   </td>
                 </tr>
               ))
+            ) : isPending ? (
+              <span className="loading table-loading"></span>
             ) : (
               <tr key={0} className="notfound">
                 <td>لا يوجد عملاء مضافة</td>

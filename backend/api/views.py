@@ -537,6 +537,7 @@ class ReceivedCashView(generics.ListCreateAPIView):
             invoises = Invoise.objects.filter(client=data.get('client'))
             # auto cashing logic
             client.totalCash -= Decimal(data.get('received_value'))
+            client.receivedCash += Decimal(data.get('received_value'))
             inputVal = data.get('received_value')
             for x in invoises:
                 if inputVal:
@@ -575,21 +576,12 @@ class ReceivedCashByIdView(generics.ListAPIView):
         cashId = self.kwargs.get("pk")
         return ReceivedCash.objects.filter(id=cashId)
     
-class ReceivedCashUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+class ReceivedCashUpdateDeleteView(generics.RetrieveDestroyAPIView):
     serializer_class = ReceivedCashSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return ReceivedCash.objects.all()
-    
-    def perform_update(self, serializer):
-        if serializer.is_valid():
-            client = Client.objects.get(name=serializer.validated_data.get('client'))
-            client.totalCash -= Decimal(serializer.validated_data.get('received_value'))
-            client.save()
-            serializer.save()
-        else:
-            print(serializer.errors)
             
     def perform_destroy(self, instance):
         client = instance.client

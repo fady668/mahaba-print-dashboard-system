@@ -180,6 +180,12 @@ i.eye {
     width: 100%;
     height: 1px;
 }
+.dashboard .con {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translate(0, -50%);
+}
 .dashboard .button {
     display: flex;
     align-items: center;
@@ -199,7 +205,7 @@ i.eye {
 .dashboard .button img {
     width: 28px;
 }
-.dashboard .button:not(.button:last-child):hover {
+.dashboard .button:hover {
     background-color: #00000024;
 }
 .dashboard .logout-btn {
@@ -210,8 +216,11 @@ i.eye {
     position: absolute;
     bottom: 0;
 }
+.dashboard .logout-btn:hover {
+    background-color: transparent;
+}
 .dashboard .left-part {
-    max-width: calc(100% - 315px);
+    max-width: calc(100% - 330px);
     margin-right: 315px;
 }
 
@@ -475,6 +484,16 @@ i.eye {
     left: 150px;
 }
 @media print {
+    .right-part,
+    .right-bg,
+    .table,
+    .search-bar,
+    .add-btn {
+        display: none;
+    }
+    .invoise-form {
+        overflow-y: visible;
+    }
     .heighlight-text.form-heading {
         color: black;
         border: 1px solid gray;
@@ -483,7 +502,14 @@ i.eye {
         display: none;
     }
 }
-/* Kash Page */
+/* Kashf Page */
+.kashf-page {
+    overflow: auto;
+    padding-bottom: 10px;
+}
+.kashf-page::-webkit-scrollbar {
+    display: none;
+}
 .kashf-form {
     position: absolute;
     top: 50%;
@@ -499,6 +525,35 @@ i.eye {
     background-color: white;
     border-radius: 45px;
     width: 700px;
+    z-index: 1;
+}
+.kashf-form::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: -1;
+    border-radius: 45px;
+    border: 2px solid var(--button-blue-background);
+    transition: 0.3s;
+}
+.kashf-form:hover::before {
+    top: -2px;
+    left: -2px;
+}
+.kashf-form::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: -1;
+    border-radius: 45px;
 }
 .kashf-form .fa-user,
 .kashf-form-label {
@@ -528,8 +583,39 @@ i.eye {
     top: 50px;
     left: var(--left-page-left-value);
     margin-top: 0;
+    transition: 0.3s;
+    position: fixed;
+    top: 35px;
+    margin: 0 auto;
+    display: block;
+    width: fit-content;
+    z-index: 1;
+    animation-duration: 0.3s;
+    animation-name: page-title-ani;
+}
+4
+.kashf-page .print-btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: fit-content;
+    margin-top: 0;
+    padding: 5px 30px;
+    border-radius: 10px;
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    gap: 3px;
+    font-size: 20px;
+    transition: 0.3s;
     animation-duration: 0.3s;
     animation-name: kashf-page-ani;
+}
+.kashf-page .print-btn:hover {
+    background-color: var(--shadow-background);
+}
+.kashf-page .print-btn img {
+    height: 23px;
 }
 .kashf-page button.step-back {
     display: flex;
@@ -545,6 +631,7 @@ i.eye {
     font-weight: bold;
     font-size: 15px;
     gap: 10px;
+    cursor: pointer;
 }
 .kashf-page button.step-back:hover {
     text-decoration: underline;
@@ -552,12 +639,100 @@ i.eye {
 .kashf-page button.step-back img {
     height: 18px;
 }
+.kashf-page .grid {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    gap: 30px;
+    top: 50px;
+    animation-duration: 0.6s;
+    animation: kashf-page-ani;
+}
+.kashf-page .grid .child {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+}
+.kashf-page .grid .child p.title {
+    position: relative;
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.kashf-page .grid .child p.title::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 80%;
+    bottom: -10px;
+    height: 3px;
+    background-color: var(--button-blue-background);
+    transform: translate(-50%, -50%);
+    animation: title-before-ani;
+    animation-duration: 0.6s;
+}
+.kashf-page .grid .child span.content {
+    font-size: 20px;
+}
+.kashf-page .kashf-invoises {
+    width: 100%;
+    background-color: white;
+    position: relative;
+    top: 70px;
+    border-radius: 15px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 31vh;
+}
+.kashf-page .table {
+    position: inherit;
+    top: 0;
+    width: 100%;
+}
+.kashf-page .table thead td {
+    background-color: #607d8b;
+}
+.kashf-page .kashf-additionals {
+    width: 100%;
+    background-color: white;
+    position: relative;
+    top: 90px;
+    border-radius: 15px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 31vh;
+}
+@keyframes title-before-ani {
+    from {
+        width: 0;
+    }
+    to {
+        width: 80%;
+    }
+}
 @keyframes kashf-page-ani {
     from {
-        margin-top: 50px;
+        margin-top: 40px;
     }
     to {
         margin-top: 0;
+    }
+}
+@keyframes page-title-ani {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.7;
+        width: 30%;
+        border-top-left-radius: none;
+        border-top-right-radius: none;
     }
 }
 

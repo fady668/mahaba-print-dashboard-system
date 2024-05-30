@@ -9,6 +9,7 @@ const Additionals = () => {
   const clientId = useParams().id;
   const [client, setClient] = useState({});
   const [additionals, setAdditionals] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [showNewAdditional, setShowNewAdditional] = useState(false);
   const [showUpdateAdditional, setShowUpdateAdditional] = useState(false);
   const [updatedAdditional, setUpdatedAdditional] = useState(false);
@@ -23,8 +24,10 @@ const Additionals = () => {
     setClient(res.data[0]);
   };
   const getAdditionals = async () => {
+    setIsPending(true);
     const res = await api.get(`api/additionals/byclientid/${clientId}`);
     const data = await res.data;
+    setIsPending(false);
     setAdditionals(data);
   };
 
@@ -117,9 +120,11 @@ const Additionals = () => {
                   </td>
                 </tr>
               ))
+            ) : isPending ? (
+              <span className="loading table-loading"></span>
             ) : (
               <tr key={0} className="notfound">
-                <td>لا يوجد أضافات قديمة...</td>
+                <td>لا يوجد أضافات قديمه</td>
               </tr>
             )}
           </tbody>
