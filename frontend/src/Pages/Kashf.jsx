@@ -4,12 +4,14 @@ import arrow from "../Images/left-arrow.png";
 import printImg from "../Images/download.png";
 import InvoiseRow from "../Componants/InvoiseRow";
 import AdditionalRow from "../Componants/AdditionalRow";
+import ReceivedCashRow from "../Componants/ReceivedCashRow";
 
 const Kashf = () => {
     const [clients, setClients] = useState([]);
     const [clientOfKashf, setClientOfKashf] = useState({});
     const [clientInvoises, setClientInvoises] = useState([]);
     const [clientAdditionals, setClientAdditionals] = useState([]);
+    const [clientReceievedCash, setClientReceievedCash] = useState([]);
     const [isPending, setIsPending] = useState(false);
     const [select, setSelect] = useState("");
     const [dropDown, setDropDown] = useState(true);
@@ -40,6 +42,14 @@ const Kashf = () => {
         setClientAdditionals(data);
     };
 
+    const getClientReceievedCash = async (clientId) => {
+        setIsPending(true);
+        const res = await api.get(`api/receivedcash/byclientid/${clientId}`);
+        const data = await res.data;
+        setIsPending(false);
+        setClientReceievedCash(data);
+    };
+
     const clientClicked = (client) => {
         setSelect(client.name);
         setClientOfKashf(client);
@@ -47,6 +57,7 @@ const Kashf = () => {
         setShowClientForm(false);
         getClientInvoises(client.id);
         getClientAdditionals(client.id);
+        getClientReceievedCash(client.id);
     };
 
     return (
@@ -169,6 +180,42 @@ const Kashf = () => {
                             </tbody>
                         </table>
                     </div>
+                    {clientOfKashf.receivedCash != 0 && (
+                        <div className="kashf-received-cash">
+                            <div className="section-title">
+                                النقديه المستلمه (الدفعات)
+                            </div>
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <td>ترتيب الدفعة</td>
+                                        <td>قيمة الدفعة</td>
+                                        <td>تاريخ الدفعة</td>
+                                        <td>طريقة الدفع</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {clientReceievedCash.length != 0 ? (
+                                        clientReceievedCash.map((cash) => (
+                                            <tr
+                                                key={cash.id}
+                                                className="sorted-row">
+                                                <ReceivedCashRow cash={cash} />
+                                                <td></td>
+                                            </tr>
+                                        ))
+                                    ) : isPending ? (
+                                        <span className="loading table-loading"></span>
+                                    ) : (
+                                        <tr key={0} className="notfound">
+                                            <td>لا يوجد نقديه مدفوعه</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </>
             )}
         </div>
