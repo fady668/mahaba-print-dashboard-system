@@ -12,42 +12,40 @@ import imgEight from "../Images/logout-icon.jpg";
 import { Link, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
-    const [user, setUser] = useState([]);
-    return (
-        <>
-            <div className="dashboard">
-                <img className="right-bg" src={img} alt="Background Image" />
-                <div className="right-part">
-                    <div className="heading-content">
-                        <img src={logoImg} alt="Mahaba Print Image" />
-                        <p>مطبعة المحبه للطباعة والتوريدات</p>
-                    </div>
-                    <div className="con">
-                        <Link to="/" className="button">
-                            <img src={imgOne} alt="" />
-                            الصفحه الرئيسيه
-                        </Link>
-                        <Link to="/clients" className="button">
-                            <img src={imgTwo} alt="" />
-                            العملاء
-                        </Link>
-                        <Link to="/kashf" className="button">
-                            <img src={imgSix} alt="" />
-                            كشف حساب
-                        </Link>
-                    </div>
-                    <Link to={"/logout"} className="button logout-btn">
-                        <img src={imgEight} alt="" />
-                        تسجيل الخروج
-                    </Link>
-                </div>
-                <div className="left-part">
-                    {/* <h1>مرحباً ()</h1> */}
-                    <Outlet />
-                </div>
-            </div>
-        </>
-    );
+  const [user, setUser] = useState([]);
+  return (
+    <>
+      <div className="dashboard">
+        <img className="right-bg" src={img} alt="Background Image" />
+        <div className="right-part">
+          <div className="heading-content">
+            <img src={logoImg} alt="Mahaba Print Image" />
+            <p>مطبعة المحبه للطباعة والتوريدات</p>
+          </div>
+          <Link to="/" className="button">
+            <img src={imgOne} alt="" />
+            الصفحه الرئيسيه
+          </Link>
+          <Link to="/clients" className="button">
+            <img src={imgTwo} alt="" />
+            العملاء
+          </Link>
+          <Link to="/kashf" className="button">
+            <img src={imgSix} alt="" />
+            كشف حساب
+          </Link>
+          <Link to={"/logout"} className="button logout-btn">
+            <img src={imgEight} alt="" />
+            تسجيل الخروج
+          </Link>
+        </div>
+        <div className="left-part">
+          {/* <h1>مرحباً ()</h1> */}
+          <Outlet />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Dashboard;
