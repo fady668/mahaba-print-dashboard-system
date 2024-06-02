@@ -658,6 +658,20 @@ i.eye {
 .kashf-page .grid .child span.content {
     font-size: 20px;
 }
+.section-title {
+    position: sticky;
+    font-size: 19px;
+    font-weight: bold;
+    padding: 19px 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: var(--button-blue-background);
+    margin-bottom: 10px;
+    top: 0;
+    color: white;
+    border-radius: 10px;
+}
 .kashf-page .kashf-invoises {
     position: relative !important;
     width: 100%;
@@ -669,14 +683,15 @@ i.eye {
     margin-top: 65px;
 }
 .kashf-page .table {
-    position: inherit;
-    top: 0;
+    position: relative;
     width: 100%;
+    top: 0 !important;
 }
 .kashf-page .table thead td {
     background-color: #607d8b;
 }
 .kashf-page .kashf-additionals {
+    position: relative;
     width: 100%;
     background-color: white;
     border-radius: 15px;
@@ -716,13 +731,41 @@ i.eye {
 }
 
 /* Print Media */
+@page {
+    scale: 0.8;
+    overflow-y: visible;
+    margin: 10mm;
+}
 @media print {
+    .page-title {
+        margin-top: 0;
+        width: 100% !important;
+        display: block;
+        text-align: center;
+        background-color: gray;
+        padding: 10px 0;
+        margin: 0 0 30px 0;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        color: white;
+    }
+    .page-title::before {
+        display: none;
+    }
+    .page-content {
+        background-color: transparent !important;
+        overflow-y: visible;
+    }
+    .heighlight-heading,
     .right-part,
     .right-bg,
     .table,
-    .search-bar,
-    .add-btn {
-        display: none;
+    .invoises-page .search-bar,
+    .add-btn,
+    .invoises-page h1.page-title,
+    .sal-btn,
+    .total-cash {
+        display: none !important;
     }
     .invoise-form {
         overflow-y: visible;
@@ -733,9 +776,6 @@ i.eye {
     }
     .btns {
         display: none;
-    }
-    .body {
-        background-color: white;
     }
     .left-part {
         min-width: calc(100% - 20px);
@@ -755,10 +795,25 @@ i.eye {
     }
     .kashf-page {
         width: 100%;
+        overflow-y: auto;
+    }
+    .kashf-page .table {
+        display: block !important;
+    }
+    .kashf-page .table thead td {
+        width: 23% !important;
+    }
+    .kashf-page .section-title {
+        background-color: white;
+        color: black;
+        font-size: 25px;
     }
     button.step-back,
     span.print-btn {
         visibility: hidden;
+    }
+    span.new-page {
+        page-break-before: always;
     }
 }
 /* Responsive Part */

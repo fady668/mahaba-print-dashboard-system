@@ -103,7 +103,7 @@ const Invoises = () => {
   };
 
   return (
-    <div className="invoises-Page">
+    <div className="invoises-page">
       <h1 className="page-title">الفواتير</h1>
       <div className="search-bar">
         <img onClick={() => searchInvoise(search)} src={img} alt="" />

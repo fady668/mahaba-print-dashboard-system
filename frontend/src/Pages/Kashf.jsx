@@ -49,10 +49,6 @@ const Kashf = () => {
         getClientAdditionals(client.id);
     };
 
-    const print = () => {
-        window.print();
-    };
-
     return (
         <div className="kashf-page">
             <h1 className="page-title">كشف حساب</h1>
@@ -93,10 +89,6 @@ const Kashf = () => {
                     <span className="kashf-client-title heighlight-heading">
                         {clientOfKashf.name}
                     </span>
-                    <span className="print-btn" onClick={print}>
-                        <img src={printImg} alt="" />
-                        طباعة
-                    </span>
                     <button
                         className="step-back"
                         onClick={() => window.location.reload()}>
@@ -118,6 +110,7 @@ const Kashf = () => {
                         </div>
                     </div>
                     <div className="kashf-invoises">
+                        <span className="section-title">فواتير العميل</span>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -148,6 +141,7 @@ const Kashf = () => {
                         </table>
                     </div>
                     <div className="kashf-additionals">
+                        <span className="section-title">الاضافات الخارجيه</span>
                         <table className="table">
                             <thead>
                                 <tr>
