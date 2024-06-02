@@ -551,7 +551,7 @@ i.eye {
   position: relative;
 }
 .kashf-drop-menu {
-  top: 230px !important;
+  top: 280px !important;
   width: 50% !important;
   font-size: 17px;
   border-radius: 10px;
@@ -569,7 +569,7 @@ i.eye {
   display: block;
   width: fit-content;
   z-index: 1;
-  animation-duration: 0.3s;
+  animation-duration: 0.5s;
   transition: 0.3s;
   margin: -15px auto;
   animation-name: page-title-ani;
@@ -629,6 +629,7 @@ i.eye {
 }
 .kashf-page .grid .child {
   width: 50%;
+  height: 151px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -671,6 +672,7 @@ i.eye {
   top: 0;
   color: white;
   border-radius: 10px;
+  z-index: 2;
 }
 .kashf-page .kashf-invoises {
   position: relative !important;
@@ -679,7 +681,7 @@ i.eye {
   border-radius: 15px;
   padding: 10px;
   overflow-y: auto;
-  min-height: 50vh;
+  height: 37vh;
   margin-top: 65px;
 }
 .kashf-page .table {
@@ -691,14 +693,31 @@ i.eye {
   background-color: #607d8b;
 }
 .kashf-page .kashf-additionals {
-  position: relative;
+  position: relative !important;
   width: 100%;
   background-color: white;
   border-radius: 15px;
   padding: 10px;
   overflow-y: auto;
-  min-height: 50vh;
+  height: 37vh;
   margin-top: 15px;
+}
+.kashf-page .kashf-received-cash {
+  position: relative !important;
+  height: 37vh;
+}
+.show-more {
+  position: absolute;
+  left: 50px;
+  display: block;
+  top: 100px;
+  cursor: pointer;
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: #607d8bbf;
+  color: white;
+  font-size: 15px;
+  z-index: 5;
 }
 @keyframes title-before-ani {
   from {
@@ -861,6 +880,9 @@ i.eye {
   .kashf-form {
     padding: 50px !important;
     width: 700px;
+  }
+  .kashf-drop-menu {
+    top: 230px !important;
   }
 }
 /* Large */
