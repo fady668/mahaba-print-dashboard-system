@@ -661,7 +661,6 @@ i.eye {
     font-size: 20px;
 }
 .section-title {
-    position: absolute;
     font-size: 19px;
     font-weight: bold;
     padding: 19px 0;
@@ -686,7 +685,11 @@ i.eye {
 .kashf-page .table {
     position: relative;
     width: 100%;
-    top: 60px !important;
+    top: 0 !important;
+}
+.table thead td {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 .kashf-page .table thead td {
     background-color: #607d8b;

@@ -576,7 +576,7 @@ class ReceivedCashByIdView(generics.ListAPIView):
         cashId = self.kwargs.get("pk")
         return ReceivedCash.objects.filter(id=cashId)
     
-class ReceivedCashUpdateDeleteView(generics.RetrieveDestroyAPIView):
+class ReceivedCashDeleteView(generics.RetrieveDestroyAPIView):
     serializer_class = ReceivedCashSerializer
     permission_classes = [IsAuthenticated]
 
