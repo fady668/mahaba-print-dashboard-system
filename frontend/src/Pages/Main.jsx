@@ -20,7 +20,9 @@ const Main = () => {
                     <div className="total-received-cash"></div>
                     <div className="total-remaining-cash"></div>
                 </div>
-                <div className="clients-sec"></div>
+                <div className="clients-sec">
+                    <h2>اخر العملاء المضافه</h2>
+                </div>
                 <div className="invoises-sec"></div>
                 <div className="additionals-sec"></div>
                 <div className="received-cash-sec"></div>
