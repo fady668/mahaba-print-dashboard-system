@@ -31,27 +31,6 @@ const ReceivedCash = () => {
         setClientReceievedcash(res.data);
     };
 
-    // const updateCash = (cash) => {
-    //   setUpdatedCash(cash);
-    //   setShowUpdateForm(true);
-    // };
-
-    // const deleteMess = (id) => {
-    //   swal({
-    //     title: "تنبيه !",
-    //     text: "عند مسح الدفعه يتم ارجاء النقديه للعميل",
-    //     icon: "warning",
-    //     buttons: true,
-    //   }).then((willDelete) => {
-    //     if (willDelete) {
-    //       api.delete(`/api/receivedcash/byid/${id}`);
-    //       window.location.reload();
-    //     } else {
-    //       swal("لم يتم مسح الدفعة!");
-    //     }
-    //   });
-    // };
-
     return (
         <div className="receivedcash-page">
             <h1 className="page-title">النقديه المستلمه</h1>
