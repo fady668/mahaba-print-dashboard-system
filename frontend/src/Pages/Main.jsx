@@ -98,7 +98,7 @@ const Main = () => {
           لا يوجد تعاملات ماليه علي هذا الحساب
         </span>
       )}
-      <div className="flex">
+      <div className="grid">
         <div className="user-total-cash">
           <h2>اجمالي حساب التعاملات</h2>
           <span>{totalCash}</span>
@@ -140,7 +140,7 @@ const Main = () => {
               ) : isPending ? (
                 <tr>
                   <td colSpan="3">
-                    <span className="loading table-loading"></span>
+                    <span className="loading table-loading main-loading"></span>
                   </td>
                 </tr>
               ) : (
@@ -176,7 +176,7 @@ const Main = () => {
               ) : isPending ? (
                 <tr>
                   <td colSpan="3">
-                    <span className="loading table-loading"></span>
+                    <span className="loading table-loading main-loading"></span>
                   </td>
                 </tr>
               ) : (
@@ -212,7 +212,7 @@ const Main = () => {
               ) : isPending ? (
                 <tr>
                   <td colSpan="3">
-                    <span className="loading table-loading"></span>
+                    <span className="loading table-loading main-loading"></span>
                   </td>
                 </tr>
               ) : (

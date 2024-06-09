@@ -126,12 +126,37 @@ i.eye {
 /* Dashboard Constants Parts */
 .dashboard .right-part {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 10px;
+  right: 10px;
   width: 285px;
-  height: calc(100% - 30px);
+  height: calc(100% - 20px);
   background-color: white;
   border-radius: 20px;
+  z-index: 0;
+}
+.dashboard .main-over-layout {
+  display: none;
+}
+.dashboard .show-r-part {
+  position: absolute;
+  z-index: 0;
+  top: 22px;
+  right: 20px;
+  font-size: 25px;
+  display: none;
+  z-index: 1;
+}
+.dashboard .right-part span {
+  display: none !important;
+  color: red;
+  margin: 15px 15px 0 0;
+  font-size: 25px;
+  cursor: pointer;
+  top: 5px;
+  margin-bottom: 5px;
+  right: 10px;
+  position: fixed;
+  display: block;
 }
 .dashboard .right-bg {
   position: absolute;
@@ -244,86 +269,86 @@ i.eye {
 .main-page::-webkit-scrollbar {
   display: none;
 }
-.main-page .flex {
+.main-page .grid {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: space-evenly;
   gap: 20px;
 }
-.main-page .flex div {
+.main-page .grid div {
   min-width: 49%;
   padding: 15px;
   background-color: white;
   border-radius: 15px;
+  z-index: 10;
 }
-.main-page .flex .user-total-cash,
-.main-page .flex .cash-sec {
+.main-page .grid .user-total-cash,
+.main-page .grid .cash-sec {
   display: flex;
   justify-content: center;
   align-items: center;
   row-gap: 30px;
   flex-direction: column;
 }
-.main-page .flex .user-total-cash h2 {
+.main-page .grid .user-total-cash h2 {
   font-size: 27px;
 }
-.main-page .flex .user-total-cash span {
+.main-page .grid .user-total-cash span {
   font-size: 25px;
   color: #9e9e9e;
   font-weight: bold;
 }
-.main-page .flex .cash-sec {
+.main-page .grid .cash-sec {
   align-items: flex-start;
 }
-.main-page .flex .cash-sec .cash {
+.main-page .grid .cash-sec .cash {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
   font-size: 19px;
 }
-.main-page .flex .cash-sec .cash .value {
+.main-page .grid .cash-sec .cash .value {
   font-weight: bold;
   position: relative;
 }
-.main-page .flex .cash-sec .total-received .value {
+.main-page .grid .cash-sec .total-received .value {
   color: #4caf50;
 }
-.main-page .flex .cash-sec .total-received .value::before {
+.main-page .grid .cash-sec .total-received .value::before {
   content: "+";
   position: absolute;
   left: -15px;
 }
-.main-page .flex .cash-sec .total-remaining .value {
+.main-page .grid .cash-sec .total-remaining .value {
   color: red;
 }
-.main-page .flex .cash-sec .total-remaining .value::before {
+.main-page .grid .cash-sec .total-remaining .value::before {
   content: "-";
   position: absolute;
   left: -15px;
 }
-.main-page .flex .sec {
+.main-page .grid .sec {
   position: relative;
   overflow-y: visible;
 }
-.main-page .flex .sec .table {
+.main-page .grid .sec .table {
   position: unset;
   margin-top: 25px;
   width: 100%;
 }
-.main-page .flex .sec .table .notfound td {
+.main-page .grid .sec .table .notfound td {
   top: 10px !important;
   left: 100px;
 }
-.main-page .flex .sec .table thead tr td {
+.main-page .grid .sec .table thead tr td {
   background-color: #009688;
   font-size: 21px;
 }
-.main-page .flex .sec h2 {
+.main-page .grid .sec h2 {
   position: relative;
 }
-.main-page .flex .sec h2::after {
+.main-page .grid .sec h2::after {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -684,6 +709,9 @@ i.eye {
 .rotated {
   transform: rotate(180deg);
 }
+.kashf-page .table tr.notfound td {
+  top: 55px;
+}
 .kashf-page .kashf-client-title {
   border-radius: 20px;
   transition: 0.3s;
@@ -989,23 +1017,141 @@ i.eye {
 /* Responsive Part */
 /* Mobil */
 @media (max-width: 768px) {
+  .new-user-mess {
+    position: static !important;
+    display: block;
+    width: 100% !important;
+    transform: none !important;
+  }
+  .right-part {
+    width: calc(100% - 30px) !important;
+    left: 15px;
+  }
+  .total-cash,
+  .total-received-cash,
+  .left-part::before,
+  .left-part::after {
+    display: none !important;
+  }
+  .main-page .grid {
+    grid-template-columns: 1fr !important;
+  }
+  .main-page tr.notfound td {
+    left: 71px !important;
+    font-size: 12px !important;
+    padding: 0 !important;
+  }
+  .search-bar {
+    top: 70px !important;
+    z-index: -1;
+  }
+  .invoises-page .page-content,
+  .clients-page .page-content {
+    top: 140px;
+    height: calc(100% - 150px);
+    z-index: -1;
+  }
+  .heighlight-heading {
+    position: fixed !important;
+    left: 75px !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 20px;
+    padding: 5px 50px !important;
+    margin-top: 0px !important;
+  }
+  .table-loading {
+    margin-top: 0 !important;
+  }
+  .table tbody tr td:last-child i,
+  .table tbody tr td:last-child img {
+    margin: 8px;
+  }
+  .invoise-form {
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .invoise-form .form {
+    width: 570px !important;
+  }
+  .kashf-form {
+    width: 100% !important;
+  }
+  .kashf-form::before {
+    display: none;
+  }
+  .kashf-form input {
+    width: 70% !important;
+  }
+  .kashf-page .grid {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .kashf-page .grid .child {
+    width: 100%;
+  }
+  .kashf-page .kashf-client-title {
+    right: 8% !important;
+    border-radius: 20px !important;
+    margin: -15px 0;
+  }
+  .step-back {
+    left: 5px !important;
+    top: 120px !important;
+  }
+  .show-more {
+    margin: 25px 0 -35px 0;
+  }
 }
-/* Small */
-@media (min-width: 768px) and (max-width: 991px) {
-  .container {
-    width: 750px;
+@media (max-width: 991px) {
+  .login-page .from-container {
+    width: 100% !important;
+    border-radius: 0 !important;
+    height: 100%;
+  }
+  .login-page .from-container::before,
+  .login-page .from-container .logo-img {
+    display: none !important;
+  }
+}
+@media (min-width: 767px) and (max-width: 991px) {
+  .invoises-page .heighlight-heading {
+    left: 78px !important;
+    padding: 10px 50px !important;
+    top: 25px !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 20px;
+  }
+  .total-cash,
+  .total-received-cash {
+    display: none !important;
   }
 }
 /* Medium */
-@media (min-width: 992px) and (max-width: 1199px) {
-  .container {
-    width: 970px;
+@media (max-width: 1199px) {
+  .dashboard .right-part {
+    z-index: 100;
   }
-  .main-page .flex .user-total-cash h2 {
+  .dashboard .over-layout,
+  .dashboard .right-part span,
+  .dashboard .show-r-part {
+    display: block !important;
+  }
+  .dashboard .right-bg {
+    display: none;
+  }
+  .page-title {
+    right: 50px;
+    z-index: -1;
+  }
+  .main-page .grid .user-total-cash h2 {
     font-size: 23px;
   }
-  .main-page .flex .user-total-cash span {
+  .main-page .grid .user-total-cash span {
     font-size: 20px;
+  }
+  .left-part {
+    max-width: calc(100% - 30px) !important;
+    margin-right: 15px !important;
   }
   .left-part::before {
     content: "";
@@ -1028,6 +1174,17 @@ i.eye {
     transform: rotate(11deg);
     z-index: -1;
   }
+  .page-content {
+    width: calc(100% - 30px) !important;
+    left: 15px !important;
+  }
+  .search-bar,
+  .new-user-mess {
+    transform: translate(50%, 0);
+  }
+  .drop-menu {
+    flex-direction: column !important;
+  }
   .drop-menu p {
     font-size: 23px;
     min-width: 275px;
@@ -1036,14 +1193,14 @@ i.eye {
   .kashf-form {
     padding: 50px !important;
     width: 700px;
+    left: 50%;
   }
   .kashf-drop-menu {
     top: 230px !important;
   }
 }
-/* Large */
-/* @media (min-width: 1200px) {
-  .container {
-    width: 1170px;
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .heighlight-heading {
+    left: 38% !important;
   }
-} */
+}

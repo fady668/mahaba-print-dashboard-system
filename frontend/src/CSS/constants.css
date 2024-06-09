@@ -251,7 +251,7 @@
   font-weight: bold;
   background-color: var(--second-main-background);
 }
-.table tr.notfound td {
+.table .notfound td {
   position: absolute;
   color: red;
   display: block;
@@ -269,7 +269,7 @@
 }
 .table tbody tr td:last-child {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 .table tbody tr td:last-child i {
   font-size: 20px;

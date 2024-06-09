@@ -25,7 +25,6 @@ const Clients = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedClient, setSelectedClient] = useState({});
   const navigate = useNavigate();
-
   // Functions
 
   const showNewClinet = () => {

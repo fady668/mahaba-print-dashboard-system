@@ -336,7 +336,7 @@ const InvoiseForm = (props) => {
 
   return (
     <>
-      <form onSubmit={() => postInvoise()}>
+      <form className="form" onSubmit={() => postInvoise()}>
         <div className="form-invoise-con">
           <div className="inner-con">
             <label>اسم العملية</label>

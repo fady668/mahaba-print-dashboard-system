@@ -108,13 +108,13 @@ const Kashf = () => {
           <span className="show-more" onClick={() => setShowMore(!showMore)}>
             {showMore ? (
               <>
-                <i class="fa-solid fa-arrow-down rotated"></i>
-                عرض اقل
+                <i class="fa-solid fa-arrow-down"></i>
+                عرض اكثر
               </>
             ) : (
               <>
-                <i class="fa-solid fa-arrow-down"></i>
-                عرض اكثر
+                <i class="fa-solid fa-arrow-down rotated"></i>
+                عرض اقل
               </>
             )}
           </span>
