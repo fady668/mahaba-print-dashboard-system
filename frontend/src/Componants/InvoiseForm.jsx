@@ -190,7 +190,9 @@ const InvoiseForm = (props) => {
   const getZenkSal = async () => {
     const res = await api.get("/api/salaries");
     setSals(res.data[0]);
-    setZenk_sal(res.data[0].zenk_sal);
+    if (res.data[0]) {
+      setZenk_sal(res.data[0].zenk_sal);
+    }
   };
 
   const getInvoisesSals = async () => {

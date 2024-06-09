@@ -158,6 +158,7 @@ class Invoise(models.Model):
     remaining_cash = models.DecimalField(default=Decimal(0.00), max_digits=10, decimal_places=2)
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="الفواتير")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -213,6 +214,7 @@ class ReceivedCash(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     push_way = models.CharField(max_length=50, choices=PUSH_WAY_CHOICES, blank=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Additional(models.Model):
     additional_type = models.CharField(max_length=50, blank=False, verbose_name="الصنف")
@@ -220,3 +222,4 @@ class Additional(models.Model):
     salary_of_one = models.DecimalField(max_digits=15, decimal_places=1, blank=False, verbose_name="سعر الوحده")
     total = models.CharField(max_length=50, verbose_name="الاجمالي")
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)

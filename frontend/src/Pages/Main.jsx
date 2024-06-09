@@ -3,9 +3,10 @@ import api from "../api";
 
 const Main = () => {
   const [totalCash, setTotalCash] = useState(parseFloat(0));
-  const [totalReceivedCash, setTotalReceivedCash] = useState("");
-  const [totalRemainingCash, setTotalRemainingCash] = useState("");
+  const [totalReceivedCash, setTotalReceivedCash] = useState("0");
+  const [totalRemainingCash, setTotalRemainingCash] = useState("0");
   const [isPending, setIsPending] = useState(false);
+  const [allClients, setAllClients] = useState([]);
   const [clients, setClients] = useState([]);
   const [invoises, setInvoises] = useState([]);
   const [additionals, setAdditionals] = useState([]);
@@ -20,9 +21,11 @@ const Main = () => {
 
   const getClients = async () => {
     setIsPending(true);
-    const res = await api.get("api/clients");
+    const res = await api.get("api/clients/");
     setIsPending(false);
-    setClients(res.data);
+    const returnedData = [...returnSomeData(res.data)];
+    setClients(returnedData.slice(1));
+    setAllClients(res.data);
     countTotalOfMoney(res.data);
   };
 
@@ -77,20 +80,24 @@ const Main = () => {
           let len = data.length;
           list.push(data[len - x]);
         }
-        return list;
-      } else {
-        for (let x = 0; x <= data.len; x++) {
+      } else if (data.length < 3) {
+        for (let x = 0; x <= data.length; x++) {
           let len = data.length;
           list.push(data[len - x]);
         }
-        return list;
       }
+      return list;
     }
   };
 
   return (
     <div className="main-page">
       <h1 className="page-title">الصفحه الرئيسيه</h1>
+      {totalCash === 0 && (
+        <span className="new-user-mess">
+          لا يوجد تعاملات ماليه علي هذا الحساب
+        </span>
+      )}
       <div className="flex">
         <div className="user-total-cash">
           <h2>اجمالي حساب التعاملات</h2>
@@ -119,7 +126,9 @@ const Main = () => {
             <tbody>
               {invoises.length !== 0 ? (
                 invoises.map((invoise) => {
-                  const client = clients.find((c) => c.id === invoise.client);
+                  const client = allClients.find(
+                    (c) => c.id === invoise.client
+                  );
                   return (
                     <tr key={invoise.id}>
                       <td>{client && client.name}</td>
@@ -155,7 +164,7 @@ const Main = () => {
             <tbody>
               {receivedCash.length !== 0 ? (
                 receivedCash.map((cash) => {
-                  const client = clients.find((c) => c.id === cash.client);
+                  const client = allClients.find((c) => c.id === cash.client);
                   return (
                     <tr key={cash.id}>
                       <td>{client && client.name}</td>
@@ -172,7 +181,7 @@ const Main = () => {
                 </tr>
               ) : (
                 <tr key={0} className="notfound">
-                  <td colSpan="3">لا يوجد فواتير مضافة</td>
+                  <td colSpan="3">لا يوجد دفعات قديمه</td>
                 </tr>
               )}
             </tbody>
@@ -208,7 +217,7 @@ const Main = () => {
                 </tr>
               ) : (
                 <tr key={0} className="notfound">
-                  <td colSpan="3">لا يوجد فواتير مضافة</td>
+                  <td colSpan="3">لا يوجد عملاء مضافة</td>
                 </tr>
               )}
             </tbody>
@@ -227,7 +236,7 @@ const Main = () => {
             <tbody>
               {additionals.length !== 0 ? (
                 additionals.map((add) => {
-                  const client = clients.find((c) => c.id === add.client);
+                  const client = allClients.find((c) => c.id === add.client);
                   return (
                     <tr key={add.id}>
                       <td>{client && client.name}</td>
@@ -244,7 +253,7 @@ const Main = () => {
                 </tr>
               ) : (
                 <tr key={0} className="notfound">
-                  <td colSpan="3">لا يوجد فواتير مضافة</td>
+                  <td colSpan="3">لا يوجد اضافات خارجيه</td>
                 </tr>
               )}
             </tbody>

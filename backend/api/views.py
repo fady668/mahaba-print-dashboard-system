@@ -55,7 +55,7 @@ class InvoisesView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Invoise.objects.all()
+        return Invoise.objects.filter(owner=self.request.user)
     
     def perform_create(self, serializer):
       if serializer.is_valid():
@@ -266,7 +266,7 @@ class InvoisesView(generics.ListCreateAPIView):
         serializer.validated_data['remaining_cash'] = fatora_cash + color_cash
         ClientModel.totalCash += Decimal(fatora_cash + color_cash)
         ClientModel.save()
-        serializer.save()
+        serializer.save(owner=self.request.user)
       else:
           print(serializer.errors)
 
@@ -283,7 +283,7 @@ class InvoisesUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Invoise.objects.all()
+        return Invoise.objects.filter(owner=self.request.user)
     
     def perform_update(self, serializer):
         if serializer.is_valid():
@@ -452,7 +452,7 @@ class InvoisesUpdateView(generics.UpdateAPIView):
             serializer.validated_data['remaining_cash'] = fatora_cash + color_cash
             ClientModel.totalCash += Decimal(fatora_cash)
             ClientModel.save()
-            serializer.save()
+            serializer.save(owner=self.request.user)
         else:
             print(serializer.errors)
 
@@ -461,7 +461,7 @@ class InvoisesDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Invoise.objects.all()
+        return Invoise.objects.filter(owner=self.request.user)
     
     def perform_destroy(self, instance):
         client = instance.client
@@ -492,6 +492,12 @@ class SalariesUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Salaries.objects.filter(owner=self.request.user)
+    
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            serializers.save(owner=self.request.user)
+        else :
+            print(serializer.errors)
 
 # invoise Salaries
 class InvoiseSalariesView(generics.ListCreateAPIView):
@@ -528,7 +534,7 @@ class ReceivedCashView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return ReceivedCash.objects.all()
+        return ReceivedCash.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         if serializer.is_valid():
@@ -556,7 +562,7 @@ class ReceivedCashView(generics.ListCreateAPIView):
                     x.save()
                     
             client.save()
-            serializer.save()
+            serializer.save(owner=self.request.user)
         else:
             print(serializer.errors)
     
@@ -595,7 +601,7 @@ class AdditionalsView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Additional.objects.all()
+        return Additional.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         if serializer.is_valid():
@@ -606,7 +612,7 @@ class AdditionalsView(generics.ListCreateAPIView):
             serializer.validated_data['total'] = total
             client.totalCash += Decimal(total)
             client.save()
-            serializer.save()
+            serializer.save(owner=self.request.user)
         else:
             print(serializer.errors)
 
@@ -631,7 +637,7 @@ class AdditionalsUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Additional.objects.all()
+        return Additional.objects.filter(owner=self.request.user)
     
     def perform_update(self, serializer):
         if serializer.is_valid():
@@ -642,7 +648,7 @@ class AdditionalsUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
             serializer.validated_data['total'] = total
             client.totalCash += Decimal(total)
             client.save()
-            serializer.save()
+            serializer.save(owner=self.request.user)
         else:
             print(serializer.errors)
             

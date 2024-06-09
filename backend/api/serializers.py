@@ -31,6 +31,7 @@ class InvoiseSerializer(serializers.ModelSerializer):
         model = Invoise
         fields = '__all__'
         extra_kwargs = {
+            "owner" : {"read_only" : True},
             "total_cash" : {"read_only": True}
         }
 
@@ -66,6 +67,9 @@ class ReceivedCashSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReceivedCash
         fields = '__all__'
+        extra_kwargs = {
+            "owner" : {"read_only" : True},
+        }
     
     def create(self, validated_data):
             receivedCash = ReceivedCash.objects.create(**validated_data)
@@ -75,7 +79,10 @@ class AdditionalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Additional
         fields = '__all__'
-        extra_kwargs = {"total" : {"read_only" : True}}
+        extra_kwargs = {
+             "owner" : {"read_only" : True},
+             "total" : {"read_only" : True}
+             }
         
     def create(self, validated_data):
         additional = Additional.objects.create(**validated_data)
