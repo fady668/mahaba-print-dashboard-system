@@ -14,6 +14,13 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 import secrets
+import os
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+
+app = get_wsgi_application()
+
 
 load_dotenv()
 
