@@ -15,12 +15,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import secrets
 import os
-<<<<<<< HEAD
 
 load_dotenv()
 
-=======
->>>>>>> 748c716ac3bd7246eab8bad3decca59058347078
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

@@ -185,7 +185,7 @@ class InvoisesView(generics.ListCreateAPIView):
         if color_kohley:
             color_cash += float(salariesModel.kohley_sal)
         if color_special:
-            color_cash += float(salariesModel.sapgha_sal)
+            color_cash += float(salariesModel.special_sal)
         if color_back_k:
             color_cash += float(salariesModel.k_sal)
         if color_back_y:
@@ -205,7 +205,7 @@ class InvoisesView(generics.ListCreateAPIView):
         if color_back_kohley:
             color_cash += float(salariesModel.kohley_sal)
         if color_back_special:
-            color_cash += float(salariesModel.sapgha_sal)
+            color_cash += float(salariesModel.special_sal)
 
         if data.get('print_count_two'):
             color_cash *= float(data.get('print_count_two'))
@@ -392,7 +392,7 @@ class InvoisesUpdateView(generics.UpdateAPIView):
             if color_kohley:
                 color_cash += float(salariesModel.kohley_sal)
             if color_special:
-                color_cash += float(salariesModel.sapgha_sal)
+                color_cash += float(salariesModel.special_sal)
             if color_back_k:
                 color_cash += float(salariesModel.k_sal)
             if color_back_y:
@@ -412,7 +412,7 @@ class InvoisesUpdateView(generics.UpdateAPIView):
             if color_back_kohley:
                 color_cash += float(salariesModel.kohley_sal)
             if color_back_special:
-                color_cash += float(salariesModel.sapgha_sal)
+                color_cash += float(salariesModel.special_sal)
 
             if data.get('print_count_two'):
                 color_cash *= float(data.get('print_count_two'))
