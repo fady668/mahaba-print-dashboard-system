@@ -188,7 +188,7 @@ const Main = () => {
           </table>
         </div>
         <div className="clients sec">
-          <h2>اخر العملاء المضافه</h2>
+          <h2>العملاء المضافه مأخراً</h2>
           <table className="table">
             <thead>
               <tr>

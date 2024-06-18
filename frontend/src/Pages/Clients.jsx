@@ -147,7 +147,7 @@ const Clients = () => {
                 const value = search.toLowerCase();
                 const c = client.name.toLowerCase();
 
-                return value && c.startsWith(value) && c && value !== c;
+                return value && c.startsWith(value) && c;
               })
               .map((client) => (
                 <span onClick={() => clientClicked(client)} key={client.id}>

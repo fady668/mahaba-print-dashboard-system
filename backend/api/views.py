@@ -278,7 +278,7 @@ class InvoisesClientView(generics.ListAPIView):
         client = self.kwargs.get("cl")
         return Invoise.objects.filter(client=client)
     
-class InvoisesUpdateView(generics.UpdateAPIView):
+class InvoisesUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = InvoiseSerializer
     permission_classes = [IsAuthenticated]
 
